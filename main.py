@@ -195,11 +195,11 @@ class BarlowTwins(nn.Module):
         sizes = [2048] + list(map(int, args.projector.split('-')))
         layers = []
         for i in range(len(sizes) - 2):
-            layers.append(nn.Linear(sizes[i], sizes[i + 1], bias=False))
-            layers.append(nn.BatchNorm1d(sizes[i + 1]))
-            layers.append(nn.ReLU(inplace=True))
+            layers.append(nn.Linear(sizes[i], sizes[i + 1], bias=False))     # Creates a layer of feed-forward network n,m being inout, output
+            layers.append(nn.BatchNorm1d(sizes[i + 1]))                      # Applies 1D batch normalization over 2D/3D input
+            layers.append(nn.ReLU(inplace=True))                             #
         layers.append(nn.Linear(sizes[-2], sizes[-1], bias=False))
-        self.projector = nn.Sequential(*layers)
+        self.projector = nn.Sequential(*layers)                              #Called to run layers sequentially
 
         # normalization layer for the representations z1 and z2
         self.bn = nn.BatchNorm1d(sizes[-1], affine=False)
